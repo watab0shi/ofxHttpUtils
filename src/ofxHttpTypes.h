@@ -47,7 +47,7 @@ struct ofxHttpForm{
         formFiles.clear();
 	}
 	// ----------------------------------------------------------------------
-    void addFile(std::string fieldName, const std::filesystem::path & path){
+    void addFile(std::string fieldName, const std::string & path){
 		formFiles[fieldName] = ofToDataPath(path);
 	}
 

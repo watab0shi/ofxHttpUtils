@@ -76,7 +76,7 @@ class ofxHttpUtils : public ofThread{
 		//-------------------------------
 		// blocking functions
 		ofxHttpResponse submitForm(ofxHttpForm form);
-		ofxHttpResponse getUrl(std::string url);
+		ofxHttpResponse getUrl(ofxHttpForm form);
 		ofxHttpResponse postData(std::string url, const ofBuffer & data, std::string contentType="");
 
         int getQueueLength();

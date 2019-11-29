@@ -93,9 +93,8 @@ void ofxHttpUtils::threadedFunction(){
 				response = doPostForm(form);
 				ofLogVerbose("ofxHttpUtils") << "(thread running) form submitted (post): "  << form.name;
 			}else{
-				string url = generateUrl(form);
 				ofLogVerbose("ofxHttpUtils") << "form submitted (get):" << form.name;
-				response = getUrl(url);
+				response = getUrl(form);
 			}
     		lock();
             if(response.status!=-1) {
@@ -326,8 +325,8 @@ ofxHttpResponse ofxHttpUtils::doPostForm(ofxHttpForm & form){
 }
 
 // ----------------------------------------------------------------------
-ofxHttpResponse ofxHttpUtils::getUrl(string url){
-
+ofxHttpResponse ofxHttpUtils::getUrl(ofxHttpForm form){
+    std::string url = generateUrl(form);
    ofxHttpResponse response;
    try{
 		URI uri(url.c_str());
@@ -344,6 +343,12 @@ ofxHttpResponse ofxHttpUtils::getUrl(string url){
         		reqCookies.add(cookies[i].getName(),cookies[i].getValue());
         		req.setCookies(reqCookies);
         	}
+        }
+
+        for (unsigned int i = 0; i < form.headerIds.size(); ++i) {
+            const std::string name = form.headerIds[i].c_str();
+            const std::string val = form.headerValues[i].c_str();
+            req.set(name, val);
         }
 
 		HTTPResponse res;
